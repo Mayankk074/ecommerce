@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ecommerce/constants/constants.dart';
 import 'package:ecommerce/service/productService.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +31,31 @@ class _AddproductState extends State<Addproduct> {
   String? dropDownBrandValue=brandMenu.first;
   String? dropDownCategoryValue=categoryMenu.first;
   bool? isAvailable= false;
+  DateTime? selectedDate;
+  String? prodName;
+  String? desc;
+  String? price;
+  String? quantity;
+  File? image;
+  XFile? selectedImage;
+  String? releaseDate;
+
+  Future<void> _selectDate()async{
+    DateTime? pickedDate=await showDatePicker(
+      context: context,
+      firstDate: DateTime(2024),
+      lastDate: DateTime(2026));
+
+    setState(() {
+      //to be shown date in OutlinedButton
+      releaseDate=pickedDate?.toIso8601String().substring(0,10);
+      selectedDate=pickedDate;
+    });
+  }
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +68,7 @@ class _AddproductState extends State<Addproduct> {
         child: Container(
           padding: EdgeInsets.symmetric(vertical: screenHeight * 0.05, horizontal: screenWidth*0.04),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Text(
                 "Enter your product details",
@@ -54,33 +81,60 @@ class _AddproductState extends State<Addproduct> {
               TextFormField(
                 decoration: textInputDecoration.copyWith(hintText: "Product Name"),
                 validator: (val) => val!.isEmpty ? "Enter product name" : null,
+                onChanged: (val) => setState(() => prodName=val),
+
               ),
               const SizedBox(height: 20,),
               TextFormField(
                 decoration: textInputDecoration.copyWith(hintText: "Description"),
                 validator: (val) => val!.isEmpty ? "Enter description" : null,
+                onChanged: (val) => setState(() => desc=val),
               ),
               const SizedBox(height: 20,),
-              DropdownMenu<String>(
-                initialSelection: brandMenu.first,
-                onSelected: (String? value)=> setState(() => dropDownBrandValue=value),
-                dropdownMenuEntries: brandMenuEntries,
+              Row(
+                children: [
+                  DropdownMenu<String>(
+                    initialSelection: brandMenu.first,
+                    onSelected: (String? value)=> setState(() => dropDownBrandValue=value),
+                    dropdownMenuEntries: brandMenuEntries,
+                  ),
+                  SizedBox(width: screenWidth*0.04,),
+                  DropdownMenu<String>(
+                    initialSelection: categoryMenu.first,
+                    onSelected: (String? value)=> setState(() => dropDownCategoryValue=value),
+                    dropdownMenuEntries: categoryMenuEntries,
+                  ),
+                ],
               ),
               SizedBox(height: 20,),
               TextFormField(
+                keyboardType: TextInputType.number,
                 decoration: textInputDecoration.copyWith(hintText: "Price"),
                 validator: (val) => val!.isEmpty ? "Enter price" : null,
+                onChanged: (val) => setState(() => price=val),
               ),
               SizedBox(height: 20,),
-              DropdownMenu<String>(
-                initialSelection: categoryMenu.first,
-                onSelected: (String? value)=> setState(() => dropDownCategoryValue=value),
-                dropdownMenuEntries: categoryMenuEntries,
+              Row(
+                children: [
+                  OutlinedButton(
+                      onPressed: _selectDate,
+                      child: Text(releaseDate ?? 'Release Date')),
+                  Spacer(),
+                  ElevatedButton(
+                      onPressed: () async {
+                        //Picking image from gallery
+                        selectedImage=await ImagePicker().pickImage(source: ImageSource.gallery);
+                      },
+                      child: Text("Select Image")
+                  ),
+                ],
               ),
               SizedBox(height: 20,),
               TextFormField(
+                keyboardType: TextInputType.number,
                 decoration: textInputDecoration.copyWith(hintText: "Stock quantity"),
                 validator: (val) => val!.isEmpty ? "Enter quantity" : null,
+                onChanged: (val) => setState(() => quantity=val),
               ),
               SizedBox(height: 20,),
               Row(
@@ -95,20 +149,22 @@ class _AddproductState extends State<Addproduct> {
                   const Text("Product is available")
                 ],
               ),
-              ElevatedButton(
-                onPressed: () async {
-                  XFile? selectedImage=await ImagePicker().pickImage(source: ImageSource.gallery);
-                },
-                child: Text("Select Image")
-              ),
-              SizedBox(height: 20,),
+              SizedBox(height: screenHeight*0.07,),
               ElevatedButton(
                   onPressed: () async {
-                    // await ProductService().addProduct({
-                    //   "prodId": 1,
-                    //   "prodName": "MI",
-                    //   "price": 3000
-                    // });
+                    //converting DateTime to String for JsonEncoding
+                    String? isoDate = selectedDate?.toIso8601String();
+                    //sending Map and ImageFile
+                    await ProductService().addProduct({
+                      'name': prodName,
+                      'description': desc,
+                      'brand': dropDownBrandValue,
+                      'price': price,
+                      'category':dropDownCategoryValue,
+                      'releaseDate': isoDate,
+                      'productAvailable': isAvailable,
+                      'stockQuantity':quantity,
+                    }, selectedImage);
                   },
                   child: Text("Upload")
               )

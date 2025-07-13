@@ -7,14 +7,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class HomeBody extends StatefulWidget {
+  const HomeBody({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<HomeBody> createState() => _HomeBodyState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeBodyState extends State<HomeBody> {
 
   final TextEditingController _textEditingController=TextEditingController();
   // List<Product>? products=[];
@@ -43,6 +43,7 @@ class _HomeState extends State<Home> {
       builder: (BuildContext context, AsyncSnapshot<List<Product>> snapshot) {
         if(snapshot.connectionState == ConnectionState.done){
           if(snapshot.hasData){
+            print("has data");
             List<Product>? products=snapshot.data;
             return Column(
               children: [
@@ -58,8 +59,15 @@ class _HomeState extends State<Home> {
                       itemCount: products?.length,
                       itemBuilder: (context, index){
                         return ProductTile(
-                          price: products![index].price!,
-                          name: products[index].name!,
+                          id: products?[index].id,
+                          name: products?[index].name,
+                          description: products?[index].description,
+                          brand: products?[index].brand,
+                          price: products?[index].price,
+                          category: products?[index].category,
+                          releaseDate: products?[index].releaseDate,
+                          isAvailable: products?[index].isAvailable,
+                          stockQuantity: products?[index].stockQuantity,
                         );
                       }),
                 )

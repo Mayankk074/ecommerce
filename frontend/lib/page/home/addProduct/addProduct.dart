@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../model/product.dart';
+
 class Addproduct extends StatefulWidget {
   const Addproduct({super.key});
 
@@ -50,6 +52,23 @@ class _AddproductState extends State<Addproduct> {
       //to be shown date in OutlinedButton
       releaseDate=pickedDate?.toIso8601String().substring(0,10);
       selectedDate=pickedDate;
+    });
+  }
+
+  void _resetForm() {
+    _formKey.currentState?.reset();
+    setState(() {
+      dropDownBrandValue = brandMenu.first;
+      dropDownCategoryValue = categoryMenu.first;
+      isAvailable= false;
+      selectedDate=null;
+      prodName=null;
+      desc=null;
+      price=null;
+      quantity=null;
+      image=null;
+      selectedImage=null;
+      releaseDate=null;
     });
   }
 
@@ -152,19 +171,30 @@ class _AddproductState extends State<Addproduct> {
               SizedBox(height: screenHeight*0.07,),
               ElevatedButton(
                   onPressed: () async {
-                    //converting DateTime to String for JsonEncoding
-                    String? isoDate = selectedDate?.toIso8601String();
-                    //sending Map and ImageFile
-                    await ProductService().addProduct({
-                      'name': prodName,
-                      'description': desc,
-                      'brand': dropDownBrandValue,
-                      'price': price,
-                      'category':dropDownCategoryValue,
-                      'releaseDate': isoDate,
-                      'productAvailable': isAvailable,
-                      'stockQuantity':quantity,
-                    }, selectedImage);
+                    if(_formKey.currentState!.validate()){
+                      //converting DateTime to String for JsonEncoding
+                      String? isoDate = selectedDate?.toIso8601String();
+                      //sending Map and ImageFile
+                      Product? product=await ProductService().addProduct({
+                        'name': prodName,
+                        'description': desc,
+                        'brand': dropDownBrandValue,
+                        'price': price,
+                        'category':dropDownCategoryValue,
+                        'releaseDate': isoDate,
+                        'productAvailable': isAvailable,
+                        'stockQuantity':quantity,
+                      }, selectedImage);
+                      if(product != null){
+                        const snackbar=SnackBar(content: Text("Product has been added successfully"));
+                        if (context.mounted) ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                        _resetForm();
+                      }
+                      else{
+                        const snackbar=SnackBar(content: Text("Product has not been added"));
+                        if (context.mounted) ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                      }
+                    }
                   },
                   child: Text("Upload")
               )

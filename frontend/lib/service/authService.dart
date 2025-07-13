@@ -17,7 +17,7 @@ class Authservice{
   Future<void> login(String username, String password) async {
     print("login");
     final response = await http.post(
-      Uri.parse('http://192.168.1.3:8080/login'),
+      Uri.parse('http://192.168.1.100:8080/login'),
       body: jsonEncode({'username': username, 'password': password}),
       headers: {'Content-Type': 'application/json'},
     );
@@ -40,7 +40,7 @@ class Authservice{
   Future<void> register(String username, String password) async {
     print("register");
     final response = await http.post(
-      Uri.parse('http://192.168.1.3:8080/register'),
+      Uri.parse('http://192.168.1.100:8080/register'),
       body: jsonEncode({'username': username, 'password': password}),
       headers: {'Content-Type': 'application/json'},
     );

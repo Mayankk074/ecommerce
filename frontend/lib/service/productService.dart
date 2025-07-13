@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:ecommerce/model/product.dart';
 import 'package:ecommerce/service/storageHelper.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart' as http_parser;
 import 'package:image_picker/image_picker.dart';
 
@@ -13,7 +14,7 @@ class ProductService{
   Future<Product?> addProduct(map, XFile? file) async {
     //getting the saved token from storage
     final token = await SecureStorageHelper.getToken();
-    final uri = Uri.parse('http://192.168.1.3:8080/api/product');
+    final uri = Uri.parse('http://192.168.1.100:8080/api/product');
 
     print(token);
 
@@ -62,9 +63,13 @@ class ProductService{
 
   //getting all products
   Future<List<Product>>? getProducts() async {
-    dynamic response=await http.get(Uri.parse("http://192.168.1.3:8080/products"));
+    final token = await SecureStorageHelper.getToken();
+    Response response=await http.get(Uri.parse("http://192.168.1.100:8080/api/products"), headers: {
+      'Authorization': 'Bearer $token'
+    });
     Iterable result=jsonDecode(response.body);
-    return List<Product>.from(result.map((model)=> Product.fromJson(model)));
+    List<Product> list=List<Product>.from(result.map((model)=> Product.fromJson(model)));
+    return list;
   }
 
 

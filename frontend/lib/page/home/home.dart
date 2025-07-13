@@ -1,6 +1,8 @@
+import 'package:ecommerce/page/home/homebody/homebody.dart';
 import 'package:flutter/material.dart';
 
-import 'addProduct.dart';
+import 'addProduct/addProduct.dart';
+import 'cart/cart.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -14,7 +16,11 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Addproduct(),
+      body: [
+        HomeBody(),
+        Addproduct(),
+        Cart()
+      ][currentIdx],
       bottomNavigationBar: BottomNavigationBar(
         onTap: (int index){
           setState((){

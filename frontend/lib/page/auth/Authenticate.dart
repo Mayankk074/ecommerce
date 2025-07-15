@@ -19,18 +19,19 @@ class _AuthenticateState extends State<Authenticate> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ElevatedButton(
-          onPressed: ()async{
-            // await widget.authservice.login("mayank", "test123");
-            Navigator.pushNamed(context, "/login");
-          },
-          child: Text("Login"),
+            onPressed: ()async{
+              // await widget.authservice.login("mayank", "test123");
+              Navigator.pushNamed(context, "/login");
+            },
+            child: Text("Login"),
           ),
           SizedBox(height: 20,),
           ElevatedButton(
             onPressed: (){
               Navigator.pushNamed(context, "/register");
             },
-            child: Text("Register"))
+            child: Text("Register")
+          )
         ]
       ),
     );

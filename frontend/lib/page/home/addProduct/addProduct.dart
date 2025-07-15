@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:ecommerce/constants/constants.dart';
@@ -23,11 +24,12 @@ List<String> categoryMenu=["Electronics","Furniture","Kitchen","Groceries","Othe
 class _AddproductState extends State<Addproduct> {
   final _formKey=GlobalKey<FormState>();
   //creating entries for Dropdown
+  //defining the style of buttons inside menu by style property using constant
   static final List<MenuEntry> brandMenuEntries = UnmodifiableListView<MenuEntry>(
-    brandMenu.map<MenuEntry>((String name) => MenuEntry(value: name, label: name)),
+    brandMenu.map<MenuEntry>((String name) => MenuEntry(value: name, label: name, style: buttonStyle)),
   );
   static final List<MenuEntry> categoryMenuEntries = UnmodifiableListView<MenuEntry>(
-    categoryMenu.map<MenuEntry>((String name) => MenuEntry(value: name, label: name)),
+    categoryMenu.map<MenuEntry>((String name) => MenuEntry(value: name, label: name, style:  buttonStyle)),
   );
 
   String? dropDownBrandValue=brandMenu.first;
@@ -98,14 +100,14 @@ class _AddproductState extends State<Addproduct> {
               Divider(),
               const SizedBox(height: 20,),
               TextFormField(
-                decoration: textInputDecoration.copyWith(hintText: "Product Name"),
+                decoration: const InputDecoration(hintText: "Product Name"),
                 validator: (val) => val!.isEmpty ? "Enter product name" : null,
                 onChanged: (val) => setState(() => prodName=val),
 
               ),
               const SizedBox(height: 20,),
               TextFormField(
-                decoration: textInputDecoration.copyWith(hintText: "Description"),
+                decoration: const InputDecoration(hintText: "Description"),
                 validator: (val) => val!.isEmpty ? "Enter description" : null,
                 onChanged: (val) => setState(() => desc=val),
               ),
@@ -116,42 +118,53 @@ class _AddproductState extends State<Addproduct> {
                     initialSelection: brandMenu.first,
                     onSelected: (String? value)=> setState(() => dropDownBrandValue=value),
                     dropdownMenuEntries: brandMenuEntries,
+                    menuStyle: MenuStyle(
+                      backgroundColor: WidgetStateProperty.all<Color>(Colors.white)
+                    ),
+                    inputDecorationTheme: textInputDecoration,
+                    textStyle: Theme.of(context).textTheme.titleSmall,
                   ),
                   SizedBox(width: screenWidth*0.04,),
                   DropdownMenu<String>(
                     initialSelection: categoryMenu.first,
                     onSelected: (String? value)=> setState(() => dropDownCategoryValue=value),
                     dropdownMenuEntries: categoryMenuEntries,
+                    menuStyle: const MenuStyle(
+                        backgroundColor: WidgetStatePropertyAll(Colors.white)
+                    ),
+                    inputDecorationTheme: textInputDecoration,
+                    textStyle: Theme.of(context).textTheme.titleSmall,
                   ),
                 ],
               ),
               SizedBox(height: 20,),
               TextFormField(
                 keyboardType: TextInputType.number,
-                decoration: textInputDecoration.copyWith(hintText: "Price"),
+                decoration: const InputDecoration(hintText: "Price"),
                 validator: (val) => val!.isEmpty ? "Enter price" : null,
                 onChanged: (val) => setState(() => price=val),
               ),
               SizedBox(height: 20,),
               Row(
                 children: [
-                  OutlinedButton(
-                      onPressed: _selectDate,
-                      child: Text(releaseDate ?? 'Release Date')),
+                  ElevatedButton(
+                    onPressed: _selectDate,
+                    child: Text(releaseDate ?? 'Release Date'),
+                  ),
                   Spacer(),
                   ElevatedButton(
-                      onPressed: () async {
-                        //Picking image from gallery
-                        selectedImage=await ImagePicker().pickImage(source: ImageSource.gallery);
-                      },
-                      child: Text("Select Image")
+                    onPressed: () async {
+                      //Picking image from gallery
+                      selectedImage=await ImagePicker().pickImage(source: ImageSource.gallery);
+                    },
+                    child: Text("Select Image")
                   ),
                 ],
               ),
               SizedBox(height: 20,),
               TextFormField(
                 keyboardType: TextInputType.number,
-                decoration: textInputDecoration.copyWith(hintText: "Stock quantity"),
+                decoration: const InputDecoration(hintText: "Stock Quantity"),
                 validator: (val) => val!.isEmpty ? "Enter quantity" : null,
                 onChanged: (val) => setState(() => quantity=val),
               ),
@@ -165,7 +178,12 @@ class _AddproductState extends State<Addproduct> {
                     }
                   ),
                   // SizedBox(width: 10),
-                  const Text("Product is available")
+                  const Text(
+                    "Product is available",
+                    style: TextStyle(
+                      color: Colors.white
+                    )
+                  )
                 ],
               ),
               SizedBox(height: screenHeight*0.07,),

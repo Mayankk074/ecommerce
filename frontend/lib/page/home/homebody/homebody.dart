@@ -43,7 +43,6 @@ class _HomeBodyState extends State<HomeBody> {
       builder: (BuildContext context, AsyncSnapshot<List<Product>> snapshot) {
         if(snapshot.connectionState == ConnectionState.done){
           if(snapshot.hasData){
-            print("has data");
             List<Product>? products=snapshot.data;
             return Column(
               children: [
@@ -58,17 +57,7 @@ class _HomeBodyState extends State<HomeBody> {
                   child: ListView.builder(
                       itemCount: products?.length,
                       itemBuilder: (context, index){
-                        return ProductTile(
-                          id: products?[index].id,
-                          name: products?[index].name,
-                          description: products?[index].description,
-                          brand: products?[index].brand,
-                          price: products?[index].price,
-                          category: products?[index].category,
-                          releaseDate: products?[index].releaseDate,
-                          isAvailable: products?[index].isAvailable,
-                          stockQuantity: products?[index].stockQuantity,
-                        );
+                        return ProductTile(product: products![index],);
                       }),
                 )
               ],

@@ -5,28 +5,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class ProductTile extends StatefulWidget {
-  int? id;
-  String? name;
-  String? description;
-  String? brand;
-  double? price;
-  String? category;
-  String? releaseDate;
-  bool? isAvailable;
-  int? stockQuantity;
+import 'model/product.dart';
 
-  ProductTile(
-      {super.key,
-      required this.name,
-      required this.price,
-      required this.releaseDate,
-      required this.stockQuantity,
-      required this.isAvailable,
-      required this.category,
-      required this.brand,
-      required this.description,
-      required this.id});
+class ProductTile extends StatefulWidget {
+  Product product;
+
+  ProductTile({super.key, required this.product});
 
   @override
   State<ProductTile> createState() => _ProductTileState();
@@ -34,12 +18,14 @@ class ProductTile extends StatefulWidget {
 
 class _ProductTileState extends State<ProductTile> {
   Uint8List? imageBytes;
+  late Product product;
+
 
   //Fetching the image from server
   void getImage() async {
     final token = await SecureStorageHelper.getToken();
     final response = await http.get(
-        Uri.parse('http://192.168.1.100:8080/api/product/${widget.id}/image'),
+        Uri.parse('http://192.168.1.100:8080/api/product/${product.id}/image'),
         headers: {'Authorization': 'Bearer $token'});
 
     if (response.statusCode == 200) {
@@ -55,6 +41,7 @@ class _ProductTileState extends State<ProductTile> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    product=widget.product;
     getImage();
   }
 
@@ -72,7 +59,12 @@ class _ProductTileState extends State<ProductTile> {
                 Column(
                   children: [
                     CupertinoButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, "/productDetails", arguments: {
+                          'product': product,
+                          'image': imageBytes
+                        });
+                      },
                       child: imageBytes != null
                           ? CircleAvatar(
                               backgroundImage: MemoryImage(imageBytes!), //showing the image
@@ -86,7 +78,7 @@ class _ProductTileState extends State<ProductTile> {
                     SizedBox(
                       height: 10,
                     ),
-                    Text("₹ ${widget.price?.toInt()}")
+                    Text("₹ ${product.price?.toInt()}")
                   ],
                 ),
                 SizedBox(
@@ -97,7 +89,7 @@ class _ProductTileState extends State<ProductTile> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        widget.name!,
+                        product.name!,
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -106,19 +98,19 @@ class _ProductTileState extends State<ProductTile> {
                       SizedBox(
                         height: 5,
                       ),
-                      Text(widget.brand!),
+                      Text(product.brand!),
                       SizedBox(
                         height: 5,
                       ),
-                      Text(widget.description!),
+                      Text(product.description!),
                       SizedBox(
                         height: 5,
                       ),
                       Text(
-                        widget.isAvailable! ? "InStock" : "Out of Stock",
+                        product.isAvailable! ? "InStock" : "Out of Stock",
                         style: TextStyle(
                           color:
-                              widget.isAvailable! ? Colors.green : Colors.red,
+                          product.isAvailable! ? Colors.green : Colors.red,
                         ),
                       ),
                     ],

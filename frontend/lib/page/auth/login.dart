@@ -22,6 +22,7 @@ class _LoginState extends State<Login> {
     double screenHeight=MediaQuery.of(context).size.height;
     double screenWidth=MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(),
       body: Form(
         key: _formKey,
         child: Container(
@@ -38,15 +39,23 @@ class _LoginState extends State<Login> {
               Divider(),
               const SizedBox(height: 20,),
               TextFormField(
-                decoration: textInputDecoration.copyWith(hintText: "username"),
+                style: Theme.of(context).textTheme.titleSmall,
+                decoration: const InputDecoration(
+                  hintText: 'Username',
+                  prefixIcon: Icon(Icons.person),
+                ),
                 validator: (val) => val!.isEmpty ? "Enter username" : null,
                 onChanged: (val) => setState(() => username = val)
               ),
               const SizedBox(height: 20,),
               TextFormField(
-                decoration: textInputDecoration.copyWith(hintText: "password"),
+                style: Theme.of(context).textTheme.titleSmall,
+                decoration: const InputDecoration(
+                  hintText: 'Password',
+                  prefixIcon: Icon(Icons.lock)
+                ),
                 validator: (val) => val!.isEmpty ? "Enter password" : null,
-                  onChanged: (val) => setState(() => password = val)
+                onChanged: (val) => setState(() => password = val)
               ),
               const SizedBox(height: 20,),
               ElevatedButton(

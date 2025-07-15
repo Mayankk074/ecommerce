@@ -72,6 +72,15 @@ class ProductService{
     return list;
   }
 
+  //Deleting a product
+  Future deleteById(int? id) async {
+    final token = await SecureStorageHelper.getToken();
+    Response response=await http.delete(Uri.parse("http://192.168.1.100:8080/api/product/$id"), headers: {
+      'Authorization': 'Bearer $token'
+    });
+    print(response.body);
+  }
+
 
 
 }

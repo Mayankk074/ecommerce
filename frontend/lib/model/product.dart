@@ -15,7 +15,7 @@ class Product{
     this.category, this.isAvailable, this.releaseDate, this.stockQuantity});
 
 
-  //simpler version of below code
+  //Creating Product object with json
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
       id: json['id'],
@@ -29,25 +29,6 @@ class Product{
       stockQuantity: json['stockQuantity'],
       );
   }
-
-  // factory Product.fromJson(Map<String, dynamic> json) {
-  //   return switch (json) {
-  //     {'id': int id, 'name': String name, 'description': String description, 'brand': String brand,
-  //     'price':double price, 'category':String category, 'releaseDate': String releaseDate, 'productAvailable': bool isAvailable,
-  //     'stockQuantity': int stockQuantity} => Product(
-  //       id: id,
-  //       name: name,
-  //       description: description,
-  //       brand: brand,
-  //       price: price,
-  //       category: category,
-  //       releaseDate: releaseDate,
-  //       isAvailable: isAvailable,
-  //       stockQuantity: stockQuantity
-  //     ),
-  //     _ => throw const FormatException('Failed to load products.'),
-  //   };
-  // }
 
   @override
   String toString() {

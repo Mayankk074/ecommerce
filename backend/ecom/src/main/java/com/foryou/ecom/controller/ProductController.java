@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -95,8 +96,12 @@ public class ProductController {
         }
     }
 
+    // This will disable auto-commit and allow reading @Lob fields like imageFile.
+    // because when reading @lob it gives error.
+    @Transactional(readOnly = true)
     @GetMapping("/products/search")
     public ResponseEntity<List<Product>> search(@RequestParam String keyword){
+        System.out.println(keyword);
         List<Product> products=service.search(keyword);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }

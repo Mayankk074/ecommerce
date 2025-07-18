@@ -42,6 +42,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         //Deleting the product
                         await ProductService().deleteById(product.id);
                         if(context.mounted) Navigator.of(context).pop();
+                        if(context.mounted) Navigator.of(context).pop();
                       },
                     ),
                     TextButton(

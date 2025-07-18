@@ -100,16 +100,27 @@ class _AddproductState extends State<Addproduct> {
               Divider(),
               const SizedBox(height: 20,),
               TextFormField(
-                decoration: const InputDecoration(hintText: "Product Name"),
+                decoration: const InputDecoration(
+                  hintText: "Product Name",
+                  hintStyle: TextStyle(
+                      color: Colors.grey
+                  )
+                ),
                 validator: (val) => val!.isEmpty ? "Enter product name" : null,
                 onChanged: (val) => setState(() => prodName=val),
-
+                style: Theme.of(context).textTheme.titleSmall
               ),
               const SizedBox(height: 20,),
               TextFormField(
-                decoration: const InputDecoration(hintText: "Description"),
+                decoration: const InputDecoration(
+                  hintText: "Description",
+                  hintStyle: TextStyle(
+                      color: Colors.grey
+                  )
+                ),
                 validator: (val) => val!.isEmpty ? "Enter description" : null,
                 onChanged: (val) => setState(() => desc=val),
+                style: Theme.of(context).textTheme.titleSmall
               ),
               const SizedBox(height: 20,),
               Row(
@@ -140,9 +151,15 @@ class _AddproductState extends State<Addproduct> {
               SizedBox(height: 20,),
               TextFormField(
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(hintText: "Price"),
+                decoration: const InputDecoration(
+                  hintText: "Price",
+                  hintStyle: TextStyle(
+                      color: Colors.grey
+                  )
+                ),
                 validator: (val) => val!.isEmpty ? "Enter price" : null,
                 onChanged: (val) => setState(() => price=val),
+                style: Theme.of(context).textTheme.titleSmall
               ),
               SizedBox(height: 20,),
               Row(
@@ -164,9 +181,15 @@ class _AddproductState extends State<Addproduct> {
               SizedBox(height: 20,),
               TextFormField(
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(hintText: "Stock Quantity"),
+                decoration: const InputDecoration(
+                  hintText: "Stock Quantity",
+                  hintStyle: TextStyle(
+                    color: Colors.grey
+                  )
+                ),
                 validator: (val) => val!.isEmpty ? "Enter quantity" : null,
                 onChanged: (val) => setState(() => quantity=val),
+                style: Theme.of(context).textTheme.titleSmall
               ),
               SizedBox(height: 20,),
               Row(

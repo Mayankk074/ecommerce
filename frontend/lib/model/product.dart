@@ -22,7 +22,7 @@ class Product{
       name: json['name'],
       description: json['description'],
       brand: json['brand'],
-      price: json['price'],
+      price: (json['price'] as num).toDouble(),
       category: json['category'],
       releaseDate: json['releaseDate'],
       isAvailable: json['productAvailable'],

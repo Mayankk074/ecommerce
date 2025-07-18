@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:ecommerce/service/productService.dart';
 import 'package:ecommerce/service/storageHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,9 @@ import 'model/product.dart';
 class ProductTile extends StatefulWidget {
   Product product;
 
-  ProductTile({super.key, required this.product});
+  Function updateHomePage;
+
+  ProductTile({super.key, required this.product, required this.updateHomePage});
 
   @override
   State<ProductTile> createState() => _ProductTileState();
@@ -23,18 +26,8 @@ class _ProductTileState extends State<ProductTile> {
 
   //Fetching the image from server
   void getImage() async {
-    final token = await SecureStorageHelper.getToken();
-    final response = await http.get(
-        Uri.parse('http://192.168.1.100:8080/api/product/${product.id}/image'),
-        headers: {'Authorization': 'Bearer $token'});
-
-    if (response.statusCode == 200) {
-      setState(() {
-        imageBytes = response.bodyBytes;
-      });
-    } else {
-      print("there is an error while fetching image: ${response.statusCode}");
-    }
+    imageBytes= await ProductService().getImage(product.id);
+    setState((){});
   }
 
   @override
@@ -59,11 +52,13 @@ class _ProductTileState extends State<ProductTile> {
                 Column(
                   children: [
                     CupertinoButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, "/productDetails", arguments: {
+                      onPressed: () async {
+                        await Navigator.pushNamed(context, "/productDetails", arguments: {
                           'product': product,
                           'image': imageBytes
                         });
+                        //Update the HomePage, product is deleted so it will reflect in Home page.
+                        widget.updateHomePage();
                       },
                       child: imageBytes != null
                           ? CircleAvatar(
@@ -75,13 +70,13 @@ class _ProductTileState extends State<ProductTile> {
                                   color: Colors.white),
                             ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Text("₹ ${product.price?.toInt()}")
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 20,
                 ),
                 Expanded(
@@ -90,20 +85,20 @@ class _ProductTileState extends State<ProductTile> {
                     children: [
                       Text(
                         product.name!,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Text(product.brand!),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Text(product.description!),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Text(

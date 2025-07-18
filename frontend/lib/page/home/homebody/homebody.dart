@@ -16,23 +16,13 @@ class HomeBody extends StatefulWidget {
 
 class _HomeBodyState extends State<HomeBody> {
 
+  List<Product>? searchProducts;
   final TextEditingController _textEditingController=TextEditingController();
-  // List<Product>? products=[];
-  //
-  // void getProducts() async {
-  //   dynamic response=await http.get(Uri.parse("http://192.168.1.7:8080/api/products"));
-  //   Iterable result=jsonDecode(response.body);
-  //   setState(() {
-  //     products = List<Product>.from(result.map((model)=> Product.fromJson(model)));
-  //   });
-  // }
 
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   getProducts();
-  // }
+
+  void updateHomePage(){
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,27 +34,53 @@ class _HomeBodyState extends State<HomeBody> {
         if(snapshot.connectionState == ConnectionState.done){
           if(snapshot.hasData){
             List<Product>? products=snapshot.data;
-            return Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only( right: screenWidth*0.02, left: screenWidth*0.02, top: screenHeight * 0.07,),
-                  child: CupertinoSearchTextField(
-                    controller: _textEditingController,
-                    placeholder: "Search product",
+            if(products!.isNotEmpty){
+              return Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only( right: screenWidth*0.02, left: screenWidth*0.02, top: screenHeight * 0.07,),
+                    child: CupertinoSearchTextField(
+                      controller: _textEditingController,
+                      placeholder: "Search product",
+                      style: const TextStyle(
+                        color: Colors.white
+                      ),
+                      onSubmitted: (val)async{
+                        //when user hit search button on keyboard it will search and get List<Product> from server
+                        searchProducts = await ProductService().searchProduct(val);
+                        setState(() {});
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    //Show all products if user has not searched.
+                    child: searchProducts == null ? ListView.builder(
+                        itemCount: products.length,
+                        itemBuilder: (context, index){
+                          return ProductTile(product: products[index], updateHomePage: updateHomePage,);
+                        }) : ListView.builder(
+                        itemCount: searchProducts?.length,
+                        itemBuilder: (context, index){
+                          return ProductTile(product: searchProducts![index], updateHomePage: updateHomePage,);
+                        })
+                  )
+                ],
+              );
+            }
+            else{
+              return const Center(
+                child: Text(
+                  "No products",
+                  style: TextStyle(
+                    color: Colors.white
                   ),
                 ),
-                Expanded(
-                  child: ListView.builder(
-                      itemCount: products?.length,
-                      itemBuilder: (context, index){
-                        return ProductTile(product: products![index],);
-                      }),
-                )
-              ],
-            );
+              );
+            }
+
           }
         }
-        return CircularProgressIndicator();
+        return const CircularProgressIndicator();
       },
     );
 

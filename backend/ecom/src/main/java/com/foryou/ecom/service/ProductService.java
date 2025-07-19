@@ -1,6 +1,8 @@
 package com.foryou.ecom.service;
 
+import com.foryou.ecom.model.Cart;
 import com.foryou.ecom.model.Product;
+import com.foryou.ecom.repo.CartRepo;
 import com.foryou.ecom.repo.ProductRepo;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,9 +14,11 @@ import java.util.List;
 public class ProductService {
 
     private ProductRepo repo;
+    private CartRepo cartRepo;
 
-    public ProductService(ProductRepo repo){
+    public ProductService(ProductRepo repo, CartRepo cartRepo){
         this.repo=repo;
+        this.cartRepo=cartRepo;
     }
 
     public List<Product> getAllProducts(){
@@ -46,5 +50,10 @@ public class ProductService {
 
     public List<Product> search(String keyword) {
         return repo.search(keyword);
+    }
+
+    public String addToCart(Cart item) {
+        cartRepo.save(item);
+        return "Saved";
     }
 }

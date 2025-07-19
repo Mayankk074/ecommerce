@@ -1,5 +1,6 @@
 package com.foryou.ecom.controller;
 
+import com.foryou.ecom.model.Cart;
 import com.foryou.ecom.model.Product;
 import com.foryou.ecom.service.ProductService;
 import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
@@ -104,6 +105,14 @@ public class ProductController {
         System.out.println(keyword);
         List<Product> products=service.search(keyword);
         return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @PostMapping("/addtocart")
+    public ResponseEntity<String> addToCart(@RequestBody Cart item){
+        System.out.println(item.toString());
+        service.addToCart(item);
+
+        return new ResponseEntity<>("Saved", HttpStatus.OK);
     }
 
 }

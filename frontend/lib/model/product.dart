@@ -15,7 +15,23 @@ class Product{
     this.category, this.isAvailable, this.releaseDate, this.stockQuantity});
 
 
-  //Creating Product object with json
+  //Creating json from product
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'description':description,
+      'brand': brand,
+      'price': price,
+      'category':category,
+      'releaseDate':releaseDate,
+      'isAvailable':isAvailable,
+      'stockQuantity':stockQuantity
+    };
+  }
+
+
+  //Creating Product object from json
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
       id: json['id'],

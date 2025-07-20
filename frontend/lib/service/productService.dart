@@ -85,7 +85,6 @@ class ProductService{
     print(response.body);
   }
 
-
   //Fetching the image from server
   Future<Uint8List?> getImage(int? prodId) async {
     final token = await SecureStorageHelper.getToken();
@@ -112,20 +111,4 @@ class ProductService{
     return list;
 
   }
-
-  //Adding the product to the cart table
-  Future<String> addToCart(Product product,int quantity, String? username)async {
-    print("addToCart");
-    final token = await SecureStorageHelper.getToken();
-    Response response=await http.post(Uri.parse('http://192.168.1.100:8080/api/addtocart'),
-        headers: {'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json'},
-      //converting Product object to json with tojson() in Product which returns a Map.
-      //because jsonEncode doesn't convert custom class to json.
-        body: jsonEncode({'username': username, 'product': product.toJson(), 'quantity': quantity}),
-    );
-    return response.body;
-  }
-
-
 }

@@ -1,3 +1,4 @@
+import 'package:ecommerce/service/cartService.dart';
 import 'package:flutter/material.dart';
 
 class Cart extends StatefulWidget {
@@ -12,7 +13,11 @@ class _CartState extends State<Cart> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text("Cart"),
+        child: ElevatedButton(
+          onPressed: (){
+            CartService().getCart();
+          },
+          child: Text('Press'))
       ),
     );
   }

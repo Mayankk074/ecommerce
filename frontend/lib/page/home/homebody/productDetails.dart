@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../../model/product.dart';
 import '../../../model/user.dart';
+import '../../../service/cartService.dart';
 
 class ProductDetails extends StatefulWidget {
   const ProductDetails({super.key});
@@ -17,6 +18,16 @@ class ProductDetails extends StatefulWidget {
 class _ProductDetailsState extends State<ProductDetails> {
   final _formKey=GlobalKey<FormState>();
   int quantity=0;
+
+
+  void _resetForm() {
+    _formKey.currentState?.reset();
+
+    setState(() {
+      quantity = 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -126,13 +137,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                     if(val == null || val.isEmpty ) return 'Enter a valid quantity';
                     //if val is not a number then it will return null.
                     final num = int.tryParse(val);
-                    if(num == null || num <= 0) return 'enter a valid quantity';
+                    if(num == null || num <= 0 || num > 9) return 'Quantity should be 1-9';
 
                     return null;
                   },
                   onChanged: (val) {
                     final num = int.tryParse(val);
-                    if(num != null || num! > 0)  quantity=num;
+                    //value should be not null and greater than 0
+                    if(num != null && num > 0)  quantity=num;
                   },
                   style: Theme.of(context).textTheme.titleSmall
                 ),
@@ -141,11 +153,21 @@ class _ProductDetailsState extends State<ProductDetails> {
                   onPressed:()async {
                     if(_formKey.currentState!.validate()){
                       //Adding the product to the cart with current user
-                      dynamic response=await ProductService().addToCart(product, quantity, user?.username);
-                      print(response);
+                      dynamic response=await CartService().addToCart(product, quantity, user?.username);
+
+                      if(response != null){
+                        //showing the snackbar and resetting the form
+                        const snackbar=SnackBar(content: Text("Added to the cart successfully"));
+                        if(context.mounted) ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                        _resetForm();
+                      }
+                      else{
+                        const snackbar=const SnackBar(content: Text("There is some error!!"));
+                        if(context.mounted) ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                      }
                     }
                   } ,
-                  child: Text('Add to cart'))
+                  child: const Text('Add to cart'))
               ],
             ),
           ),

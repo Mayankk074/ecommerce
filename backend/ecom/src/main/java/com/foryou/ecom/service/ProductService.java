@@ -56,4 +56,8 @@ public class ProductService {
         cartRepo.save(item);
         return "Saved";
     }
+
+    public List<Cart> getCart() {
+        return cartRepo.findAll();
+    }
 }

@@ -115,4 +115,11 @@ public class ProductController {
         return new ResponseEntity<>("Saved", HttpStatus.OK);
     }
 
+    //Sending all cart items
+    @GetMapping("/cart")
+    public ResponseEntity<List<Cart>> getCart(){
+        System.out.println("In cart");
+        return new ResponseEntity<>(service.getCart(), HttpStatus.OK);
+    }
+
 }

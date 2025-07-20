@@ -19,6 +19,7 @@ public class Cart {
     // This field is a relationship to another entity — the Product class.
     @ManyToOne(fetch = FetchType.EAGER)
     //In my current table cart, use a column called product_id to store the foreign key
+    //It will fetch product from product table with id.
     @JoinColumn(name = "product_id")
     private Product product;
 

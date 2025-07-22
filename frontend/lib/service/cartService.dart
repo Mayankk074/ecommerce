@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ecommerce/constants/constants.dart';
 import 'package:ecommerce/model/cartItems.dart';
 import 'package:ecommerce/service/storageHelper.dart';
 import 'package:http/http.dart' as http;
@@ -12,7 +13,7 @@ class CartService{
   Future<String?> addToCart(Product product,int quantity, String? username)async {
     print("addToCart");
     final token = await SecureStorageHelper.getToken();
-    Response response=await http.post(Uri.parse('http://192.168.1.100:8080/api/addtocart'),
+    Response response=await http.post(Uri.parse('$baseUrl/api/addtocart'),
       headers: {'Authorization': 'Bearer $token',
         'Content-Type': 'application/json'},
       //converting Product object to json with tojson() in Product which returns a Map.
@@ -30,7 +31,7 @@ class CartService{
   //getting all cart items
   Future<List<CartItems>>? getCart() async {
     final token = await SecureStorageHelper.getToken();
-    Response response=await http.get(Uri.parse("http://192.168.1.100:8080/api/cart"), headers: {
+    Response response=await http.get(Uri.parse("$baseUrl/api/cart"), headers: {
       'Authorization': 'Bearer $token'
     });
     Iterable result=jsonDecode(response.body);

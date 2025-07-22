@@ -13,3 +13,6 @@ const InputDecorationTheme textInputDecoration= InputDecorationTheme(
 const ButtonStyle buttonStyle=ButtonStyle(
   foregroundColor: WidgetStatePropertyAll(Colors.black)
 );
+
+//using constant baseUrl so it can be used anywhere from here
+const String baseUrl= 'http://192.168.29.135:8080';

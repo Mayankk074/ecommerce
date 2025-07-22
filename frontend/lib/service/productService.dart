@@ -9,13 +9,15 @@ import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart' as http_parser;
 import 'package:image_picker/image_picker.dart';
 
+import '../constants/constants.dart';
+
 class ProductService{
 
   //Adding product to database
   Future<Product?> addProduct(map, XFile? file) async {
     //getting the saved token from storage
     final token = await SecureStorageHelper.getToken();
-    final uri = Uri.parse('http://192.168.1.100:8080/api/product');
+    final uri = Uri.parse('$baseUrl/api/product');
 
     print(token);
 
@@ -68,7 +70,7 @@ class ProductService{
   //getting all products
   Future<List<Product>>? getProducts() async {
     final token = await SecureStorageHelper.getToken();
-    Response response=await http.get(Uri.parse("http://192.168.1.100:8080/api/products"), headers: {
+    Response response=await http.get(Uri.parse("$baseUrl/api/products"), headers: {
       'Authorization': 'Bearer $token'
     });
     Iterable result=jsonDecode(response.body);
@@ -79,7 +81,7 @@ class ProductService{
   //Deleting a product
   Future deleteById(int? id) async {
     final token = await SecureStorageHelper.getToken();
-    Response response=await http.delete(Uri.parse("http://192.168.1.100:8080/api/product/$id"), headers: {
+    Response response=await http.delete(Uri.parse("$baseUrl/api/product/$id"), headers: {
       'Authorization': 'Bearer $token'
     });
     print(response.body);
@@ -89,7 +91,7 @@ class ProductService{
   Future<Uint8List?> getImage(int? prodId) async {
     final token = await SecureStorageHelper.getToken();
     final response = await http.get(
-        Uri.parse('http://192.168.1.100:8080/api/product/$prodId/image'),
+        Uri.parse('$baseUrl/api/product/$prodId/image'),
         headers: {'Authorization': 'Bearer $token'});
 
     if (response.statusCode == 200) {
@@ -104,7 +106,7 @@ class ProductService{
   Future<List<Product>> searchProduct(String? value) async{
     final token = await SecureStorageHelper.getToken();
     final response = await http.get(
-        Uri.parse('http://192.168.1.100:8080/api/products/search?keyword=$value'),
+        Uri.parse('$baseUrl/api/products/search?keyword=$value'),
         headers: {'Authorization': 'Bearer $token'});
     Iterable result=jsonDecode(response.body);
     List<Product> list=List<Product>.from(result.map((model)=> Product.fromJson(model)));

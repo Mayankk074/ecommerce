@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:ecommerce/constants/constants.dart';
 import 'package:ecommerce/service/storageHelper.dart';
 
 import '../model/user.dart';
@@ -17,7 +18,7 @@ class Authservice{
   Future<void> login(String username, String password) async {
     print("login");
     final response = await http.post(
-      Uri.parse('http://192.168.1.100:8080/login'),
+      Uri.parse('$baseUrl/login'),
       body: jsonEncode({'username': username, 'password': password}),
       headers: {'Content-Type': 'application/json'},
     );
@@ -40,7 +41,7 @@ class Authservice{
   Future<void> register(String username, String password) async {
     print("register");
     final response = await http.post(
-      Uri.parse('http://192.168.1.100:8080/register'),
+      Uri.parse('$baseUrl/register'),
       body: jsonEncode({'username': username, 'password': password}),
       headers: {'Content-Type': 'application/json'},
     );

@@ -37,8 +37,16 @@ class CartService{
     Iterable result=jsonDecode(response.body);
 
     List<CartItems> list=List<CartItems>.from(result.map((model)=> CartItems.fromJson(model)));
-    print(list[0].quantity);
     return list;
+  }
+
+
+  //Deleting all CartItems with username
+  Future buy(String username)async{
+    final token = await SecureStorageHelper.getToken();
+    Response response=await http.delete(Uri.parse("$baseUrl/api/cart/$username"), headers: {
+      'Authorization': 'Bearer $token'
+    });
   }
 
 }

@@ -122,4 +122,11 @@ public class ProductController {
         return new ResponseEntity<>(service.getCart(), HttpStatus.OK);
     }
 
+    @DeleteMapping("/cart/{username}")
+    public ResponseEntity<String> deleteCartItemsWithUsername(@PathVariable String username){
+        service.deleteAllByUsername(username);
+
+        return  new ResponseEntity<>("Deleted", HttpStatus.OK);
+    }
+
 }

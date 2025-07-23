@@ -60,4 +60,8 @@ public class ProductService {
     public List<Cart> getCart() {
         return cartRepo.findAll();
     }
+
+    public void deleteAllByUsername(String username) {
+        cartRepo.deleteByUsernameCustom(username);
+    }
 }

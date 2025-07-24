@@ -1,8 +1,6 @@
 import 'package:ecommerce/service/authService.dart';
 import 'package:flutter/material.dart';
 
-import '../../constants/constants.dart';
-
 class Login extends StatefulWidget {
   final Authservice authservice;
   const Login({super.key, required this.authservice});
@@ -36,7 +34,7 @@ class _LoginState extends State<Login> {
                   fontSize: 20,
                 ),
               ),
-              Divider(),
+              const Divider(),
               const SizedBox(height: 20,),
               TextFormField(
                 style: Theme.of(context).textTheme.titleSmall,
@@ -70,7 +68,8 @@ class _LoginState extends State<Login> {
                       }
                     }
                   },
-                  child: Text("Login")
+                  style: Theme.of(context).elevatedButtonTheme.style?.copyWith(fixedSize: const WidgetStatePropertyAll(Size(150,50))),
+                  child:const Text("Login"),
               )
             ],
           ),

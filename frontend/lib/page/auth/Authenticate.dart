@@ -20,17 +20,18 @@ class _AuthenticateState extends State<Authenticate> {
         children: [
           ElevatedButton(
             onPressed: ()async{
-              // await widget.authservice.login("mayank", "test123");
               Navigator.pushNamed(context, "/login");
             },
-            child: Text("Login"),
+            style: Theme.of(context).elevatedButtonTheme.style?.copyWith(fixedSize: const WidgetStatePropertyAll(Size(300,60))),
+            child: const Text("Login"),
           ),
-          SizedBox(height: 20,),
+          const SizedBox(height: 20,),
           ElevatedButton(
             onPressed: (){
               Navigator.pushNamed(context, "/register");
             },
-            child: Text("Register")
+            style: Theme.of(context).elevatedButtonTheme.style?.copyWith(fixedSize: const WidgetStatePropertyAll(Size(300,60))),
+            child: const Text("Register")
           )
         ]
       ),

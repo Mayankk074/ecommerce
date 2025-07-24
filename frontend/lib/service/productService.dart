@@ -19,12 +19,8 @@ class ProductService{
     final token = await SecureStorageHelper.getToken();
     final uri = Uri.parse('$baseUrl/api/product');
 
-    print(token);
-
-    print('add product');
     // Check if file exists
     if (file == null) {
-      print('No file selected');
       return null;
     }
 
@@ -59,10 +55,8 @@ class ProductService{
     if (response.statusCode == 201) {
       final respStr=await response.stream.bytesToString();
       final decoded=jsonDecode(respStr);
-      print('Upload successful');
       return Product.fromJson(decoded);
     } else {
-      print('Upload failed: ${response.statusCode}');
       return null;
     }
   }
@@ -81,10 +75,9 @@ class ProductService{
   //Deleting a product
   Future deleteById(int? id) async {
     final token = await SecureStorageHelper.getToken();
-    Response response=await http.delete(Uri.parse("$baseUrl/api/product/$id"), headers: {
+    await http.delete(Uri.parse("$baseUrl/api/product/$id"), headers: {
       'Authorization': 'Bearer $token'
     });
-    print(response.body);
   }
 
   //Fetching the image from server
@@ -97,7 +90,6 @@ class ProductService{
     if (response.statusCode == 200) {
       return response.bodyBytes;
     } else {
-      print("there is an error while fetching image: ${response.statusCode}");
       return null;
     }
   }

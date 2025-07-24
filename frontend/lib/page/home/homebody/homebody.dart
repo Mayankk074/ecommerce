@@ -1,11 +1,8 @@
-import 'dart:convert';
-
 import 'package:ecommerce/model/product.dart';
 import 'package:ecommerce/productTile.dart';
 import 'package:ecommerce/service/productService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class HomeBody extends StatefulWidget {
   const HomeBody({super.key});

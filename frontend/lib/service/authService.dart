@@ -6,7 +6,6 @@ import 'package:ecommerce/constants/constants.dart';
 import 'package:ecommerce/service/storageHelper.dart';
 
 import '../model/user.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 class Authservice{
@@ -16,7 +15,6 @@ class Authservice{
   Stream<User?> get authStateChanges => _authStateController.stream;
 
   Future<void> login(String username, String password) async {
-    print("login");
     final response = await http.post(
       Uri.parse('$baseUrl/login'),
       body: jsonEncode({'username': username, 'password': password}),
@@ -27,19 +25,16 @@ class Authservice{
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       final token = data['token'];
-      print(data['user']);
       //storage
       await SecureStorageHelper.setToken(token);
       final user = User.fromJson(data['user']);
       _authStateController.add(user);
-      print("added: $user");
     } else {
       throw Exception('Login failed');
     }
   }
 
   Future<void> register(String username, String password) async {
-    print("register");
     final response = await http.post(
       Uri.parse('$baseUrl/register'),
       body: jsonEncode({'username': username, 'password': password}),
@@ -48,10 +43,8 @@ class Authservice{
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      print(data['user']);
       final user = User.fromJson(data['user']);
       _authStateController.add(user);
-      print("added: $user");
     } else {
       throw Exception('Login failed');
     }

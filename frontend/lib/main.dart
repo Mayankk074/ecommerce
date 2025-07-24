@@ -72,7 +72,7 @@ class _MyAppState extends State<MyApp> {
           "/wrapper": (context) => Authenticate(authservice: widget.authservice,),
           "/login": (context) => Login(authservice: widget.authservice,),
           "/register": (context) => Register(authservice: widget.authservice),
-          "/productDetails": (context) => ProductDetails(),
+          "/productDetails": (context) => const ProductDetails(),
         },
       ),
     );

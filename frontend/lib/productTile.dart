@@ -1,10 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:ecommerce/service/productService.dart';
-import 'package:ecommerce/service/storageHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 import 'model/product.dart';
 
@@ -27,6 +25,7 @@ class _ProductTileState extends State<ProductTile> {
   //Fetching the image from server
   void getImage() async {
     imageBytes= await ProductService().getImage(product.id);
+    if (!mounted) return; //prevents calling setState on disposed widget
     setState((){});
   }
 
@@ -63,9 +62,11 @@ class _ProductTileState extends State<ProductTile> {
                       child: imageBytes != null
                           ? CircleAvatar(
                               backgroundImage: MemoryImage(imageBytes!), //showing the image
+                              radius: 50,
                             )
                           : const CircleAvatar(
                               backgroundColor: Colors.grey,
+                              radius: 50,
                               child: Icon(Icons.add_a_photo_outlined,
                                   color: Colors.white),
                             ),

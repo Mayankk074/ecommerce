@@ -1,6 +1,4 @@
-import 'dart:ffi';
 import 'dart:io';
-
 import 'package:ecommerce/constants/constants.dart';
 import 'package:ecommerce/service/productService.dart';
 import 'package:flutter/material.dart';
@@ -97,7 +95,7 @@ class _AddproductState extends State<Addproduct> {
                   fontSize: 20,
                 ),
               ),
-              Divider(),
+              const Divider(),
               const SizedBox(height: 20,),
               TextFormField(
                 decoration: const InputDecoration(
@@ -148,7 +146,7 @@ class _AddproductState extends State<Addproduct> {
                   ),
                 ],
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               TextFormField(
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
@@ -161,24 +159,24 @@ class _AddproductState extends State<Addproduct> {
                 onChanged: (val) => setState(() => price=val),
                 style: Theme.of(context).textTheme.titleSmall
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               Row(
                 children: [
                   ElevatedButton(
                     onPressed: _selectDate,
                     child: Text(releaseDate ?? 'Release Date'),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   ElevatedButton(
                     onPressed: () async {
                       //Picking image from gallery
                       selectedImage=await ImagePicker().pickImage(source: ImageSource.gallery);
                     },
-                    child: Text("Select Image")
+                    child: const Text("Select Image")
                   ),
                 ],
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               TextFormField(
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
@@ -191,7 +189,7 @@ class _AddproductState extends State<Addproduct> {
                 onChanged: (val) => setState(() => quantity=val),
                 style: Theme.of(context).textTheme.titleSmall
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               Row(
                 children: [
                   Checkbox(
@@ -237,7 +235,8 @@ class _AddproductState extends State<Addproduct> {
                       }
                     }
                   },
-                  child: Text("Upload")
+                  style: Theme.of(context).elevatedButtonTheme.style?.copyWith(fixedSize: const WidgetStatePropertyAll(Size(300,60))),
+                  child: const Text("Upload")
               )
             ],
           ),

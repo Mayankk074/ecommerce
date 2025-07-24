@@ -17,9 +17,9 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: [
-        HomeBody(),
-        Addproduct(),
-        Cart()
+        const HomeBody(),
+        const Addproduct(),
+        const Cart()
       ][currentIdx],
       bottomNavigationBar: BottomNavigationBar(
         onTap: (int index){
@@ -28,12 +28,11 @@ class _HomeState extends State<Home> {
           });
         },
         currentIndex: currentIdx,
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.add), label: "Add Product"),
           BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Cart")
         ],
-
       ),
     );
   }

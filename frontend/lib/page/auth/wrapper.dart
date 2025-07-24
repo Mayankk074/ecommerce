@@ -15,8 +15,6 @@ class Wrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final user=Provider.of<User?>(context);
 
-    print("user: $user");
-
-    return user != null ? Home(): Authenticate(authservice: authservice,);
+    return user != null ? const Home(): Authenticate(authservice: authservice,);
   }
 }

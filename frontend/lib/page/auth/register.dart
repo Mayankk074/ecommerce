@@ -34,7 +34,7 @@ class _RegisterState extends State<Register> {
                   fontSize: 20,
                 ),
               ),
-              Divider(),
+              const Divider(),
               const SizedBox(height: 20,),
               TextFormField(
                 style: Theme.of(context).textTheme.titleSmall,
@@ -71,7 +71,8 @@ class _RegisterState extends State<Register> {
                       }
                     }
                   },
-                  child: Text("Create account")
+                  style: Theme.of(context).elevatedButtonTheme.style?.copyWith(fixedSize: const WidgetStatePropertyAll(Size(150,50))),
+                  child: const Text("Create account")
               )
             ],
           ),

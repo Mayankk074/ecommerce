@@ -11,7 +11,6 @@ class CartService{
 
   //Adding the product to the cart table
   Future<String?> addToCart(Product product,int quantity, String? username)async {
-    print("addToCart");
     final token = await SecureStorageHelper.getToken();
     Response response=await http.post(Uri.parse('$baseUrl/api/addtocart'),
       headers: {'Authorization': 'Bearer $token',
@@ -23,15 +22,14 @@ class CartService{
     if (response.statusCode == 200) {
       return response.body;
     } else {
-      print("there is an error while fetching image: ${response.statusCode}");
       return null;
     }
   }
 
   //getting all cart items
-  Future<List<CartItems>>? getCart() async {
+  Future<List<CartItems>>? getCart(String username) async {
     final token = await SecureStorageHelper.getToken();
-    Response response=await http.get(Uri.parse("$baseUrl/api/cart"), headers: {
+    Response response=await http.get(Uri.parse("$baseUrl/api/cart/$username"), headers: {
       'Authorization': 'Bearer $token'
     });
     Iterable result=jsonDecode(response.body);
@@ -44,7 +42,7 @@ class CartService{
   //Deleting all CartItems with username
   Future buy(String username)async{
     final token = await SecureStorageHelper.getToken();
-    Response response=await http.delete(Uri.parse("$baseUrl/api/cart/$username"), headers: {
+    await http.delete(Uri.parse("$baseUrl/api/cart/$username"), headers: {
       'Authorization': 'Bearer $token'
     });
   }

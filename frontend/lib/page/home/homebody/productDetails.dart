@@ -73,7 +73,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 );
               });
             },
-            icon: Icon(Icons.delete),
+            icon: const Icon(Icons.delete),
           )
         ],
       ),
@@ -81,7 +81,7 @@ class _ProductDetailsState extends State<ProductDetails> {
         child: Form(
           key: _formKey,
           child: Padding(
-            padding: EdgeInsetsGeometry.all(8),
+            padding: const EdgeInsetsGeometry.all(8),
             child: Column(
               // crossAxisAlignment: CrossAxisAlignment.c,
               children: [
@@ -94,61 +94,46 @@ class _ProductDetailsState extends State<ProductDetails> {
                     )
                   ),
                 ),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 Text(
                   product.name!,
                   style: Theme.of(context).textTheme.displaySmall,
                 ),
-                SizedBox(height: 20,),
                 Text(
                   product.brand!,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 Text(
                   "₹ ${product.price}",
-                  style: Theme.of(context).textTheme.titleMedium,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
-                SizedBox(height: 20,),
-                Text(
-                  product.description!,
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                SizedBox(height: 20,),
-                Text(
-                  product.category!,
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                // SizedBox(height: 20,),
-                // Text(
-                //   product.releaseDate!,
-                //   style: Theme.of(context).textTheme.titleMedium,
-                // ),
+                const SizedBox(height: 20,),
                 TextFormField(
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                      hintText: "Quantity",
-                      hintStyle: TextStyle(
-                          color: Colors.grey
-                      )
-                  ),
-                  validator: (val) {
-                    //checking val is not empty or null for parsing
-                    if(val == null || val.isEmpty ) return 'Enter a valid quantity';
-                    //if val is not a number then it will return null.
-                    final num = int.tryParse(val);
-                    if(num == null || num <= 0 || num > 9) return 'Quantity should be 1-9';
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                        hintText: "Quantity",
+                        hintStyle: TextStyle(
+                            color: Colors.grey
+                        )
+                    ),
+                    validator: (val) {
+                      //checking val is not empty or null for parsing
+                      if(val == null || val.isEmpty ) return 'Enter a valid quantity';
+                      //if val is not a number then it will return null.
+                      final num = int.tryParse(val);
+                      if(num == null || num <= 0 || num > 9) return 'Quantity should be 1-9';
 
-                    return null;
-                  },
-                  onChanged: (val) {
-                    final num = int.tryParse(val);
-                    //value should be not null and greater than 0
-                    if(num != null && num > 0)  quantity=num;
-                  },
-                  style: Theme.of(context).textTheme.titleSmall
+                      return null;
+                    },
+                    onChanged: (val) {
+                      final num = int.tryParse(val);
+                      //value should be not null and greater than 0
+                      if(num != null && num > 0)  quantity=num;
+                    },
+                    style: Theme.of(context).textTheme.titleSmall
                 ),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 ElevatedButton(
                   onPressed:()async {
                     if(_formKey.currentState!.validate()){
@@ -162,12 +147,34 @@ class _ProductDetailsState extends State<ProductDetails> {
                         _resetForm();
                       }
                       else{
-                        const snackbar=const SnackBar(content: Text("There is some error!!"));
+                        const snackbar=SnackBar(content: Text("There is some error!!"));
                         if(context.mounted) ScaffoldMessenger.of(context).showSnackBar(snackbar);
                       }
                     }
-                  } ,
-                  child: const Text('Add to cart'))
+                  },
+                  style: Theme.of(context).elevatedButtonTheme.style?.copyWith(fixedSize: const WidgetStatePropertyAll(Size(300,60))),
+                  child: const Text('Add to cart')
+                ),
+                const SizedBox(height: 20,),
+                Text(
+                  product.description!,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: 20,),
+                Text(
+                  product.category!,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: 20,),
+                Text(
+                  product.releaseDate!,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: 20,),
+                Text(
+                  "${product.stockQuantity}",
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
               ],
             ),
           ),

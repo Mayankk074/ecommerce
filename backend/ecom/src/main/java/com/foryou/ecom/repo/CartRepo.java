@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 public interface CartRepo extends JpaRepository<Cart, Integer> {
 
@@ -15,4 +17,8 @@ public interface CartRepo extends JpaRepository<Cart, Integer> {
     @Modifying
     @Query("DELETE FROM Cart c WHERE c.username = :username")
     void deleteByUsernameCustom(String username);
+
+    //Selecting all cartItems with username
+    @Query("SELECT c FROM Cart c WHERE c.username = :username")
+    List<Cart> findByUsername(String username);
 }

@@ -116,10 +116,11 @@ public class ProductController {
     }
 
     //Sending all cart items
-    @GetMapping("/cart")
-    public ResponseEntity<List<Cart>> getCart(){
+    @Transactional(readOnly = true)
+    @GetMapping("/cart/{username}")
+    public ResponseEntity<List<Cart>> getCart(@PathVariable String username){
         System.out.println("In cart");
-        return new ResponseEntity<>(service.getCart(), HttpStatus.OK);
+        return new ResponseEntity<>(service.getCart(username), HttpStatus.OK);
     }
 
     @DeleteMapping("/cart/{username}")

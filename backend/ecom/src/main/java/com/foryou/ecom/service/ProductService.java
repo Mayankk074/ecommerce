@@ -57,8 +57,8 @@ public class ProductService {
         return "Saved";
     }
 
-    public List<Cart> getCart() {
-        return cartRepo.findAll();
+    public List<Cart> getCart(String username) {
+        return cartRepo.findByUsername(username);
     }
 
     public void deleteAllByUsername(String username) {

@@ -5,9 +5,9 @@ target/
 # Logs
 *.log
 
-# Maven wrapper
-.mvn/
-.mvn/wrapper/maven-wrapper.jar
+## Maven wrapper
+#.mvn/
+#.mvn/wrapper/maven-wrapper.jar
 
 # Eclipse / STS
 .apt_generated/

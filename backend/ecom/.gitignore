@@ -36,7 +36,6 @@ nbdist/
 
 # Environment files
 .env
-application.properties
 application.yml
 
 # System files

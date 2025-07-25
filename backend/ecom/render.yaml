@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: ecommerce-backend
+    env: java
+    plan: free
+    rootDir: backend/ecom
+    buildCommand: ./mvnw clean package
+    startCommand: java -jar target/ecom-0.0.1.jar
+    envVars:
+      - key: PORT
+        value: 8080

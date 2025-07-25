@@ -15,4 +15,9 @@ const ButtonStyle buttonStyle=ButtonStyle(
 );
 
 //using constant baseUrl so it can be used anywhere from here
-const String baseUrl= 'http://192.168.29.135:8080';
+
+//for local machine
+// const String baseUrl= 'http://192.168.29.135:8080';
+
+//for render (online server host)
+const String baseUrl= 'https://ecommerce-yhec.onrender.com';

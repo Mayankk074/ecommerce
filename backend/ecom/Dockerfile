@@ -17,6 +17,6 @@ FROM openjdk:21-jdk
 VOLUME /tmp
 
 # Copy the JAR from the build stage
-COPY --from=build /app/target/*.jar app.jar
+COPY --from=build /app/target/*.jar ecom-0.0.1.jar
 ENTRYPOINT ["java","-jar","/ecom-0.0.1.jar"]
 EXPOSE 8080

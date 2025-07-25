@@ -18,8 +18,9 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    //Created via website with HmacSHA256 algo
-    private String secretKey="3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b";
+    //you can create secret key with website with HmacSHA256 algo
+    //here we are using system KeyGenerator to create secretKey
+    private final String secretKey;
 
     //Random secretKey
     public JwtService(){
